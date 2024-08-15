@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Rudrapur City Map with Ancestor Stories</title>
+	<style>
+		/* Add some basic styling to make the page look decent */
+		body {
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+		}
+		.map-container {
+			width: 100%;
+			height: 80vh;
+			margin: 20px auto;
+			border: 1px solid #ddd;
+			border-radius: 10px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		}
+		.story-popup {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			background-color: #fff;
+			padding: 20px;
+			border: 1px solid #ddd;
+			border-radius: 10px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<!-- Map container -->
+	<div class="map-container">
+		<!-- Embedded Google Map -->
+		<iframe src="https://www.google.com/maps/d/embed?mid=1kbS22We2KUv6qhsOvPGmIyGR7Co1z6o&ehbc=2E312F" width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+	</div>
+	
+	<!-- Story popup container -->
+	<div class="story-popup" id="story-popup">
+		<!-- Story content will be displayed here -->
+		<p id="story-content"></p>
+		<button id="close-popup">Close</button>
+	</div>
+	
+	<!-- JavaScript code to handle map clicks and display story popups -->
+	<script>
+		// Get the map iframe and the story popup container
+		const mapIframe = document.querySelector('iframe');
+		const storyPopup = document.querySelector('#story-popup');
+		const closePopupButton = document.querySelector('#close-popup');
+		
+		// Add an event listener to the map iframe to capture clicks
+		mapIframe.contentWindow.addEventListener('click', (event) => {
+			// Get the coordinates of the clicked location
+			const latLng = event.latLng;
+			
+			// Assuming you have a JSON object with story data, where each story is associated with a latitude and longitude
+			const storyData = [
+				{
+					lat: 29.123456,
+					lng: 79.456789,
+					story: 'Story of ancestor 1'
+				},
+				{
+					lat: 29.234567,
+					lng: 79.567890,
+					story: 'Story of ancestor 2'
+				},
+				// Add more story data here
+			];
+			
+			// Find the story associated with the clicked location
+			const story = storyData.find((story) => {
+				return story.lat === latLng.lat() && story.lng === latLng.lng();
+			});
+			
+			// If a story is found, display the story popup
+			if (story) {
+				document.querySelector('#story-content').innerHTML = story.story;
+				storyPopup.style.display = 'block';
+			}
+		});
+		
+		// Add an event listener to the close popup button
+		closePopupButton.addEventListener('click', () => {
+			storyPopup.style.display = 'none';
+		});
+	</script>
+</body>
+</html>
